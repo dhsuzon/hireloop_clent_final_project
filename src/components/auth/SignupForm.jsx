@@ -9,6 +9,8 @@ import {
   Input,
   Label,
   TextField,
+  Radio,
+  RadioGroup,
 } from "@heroui/react";
 import Eye from "@gravity-ui/icons/Eye";
 import EyeSlash from "@gravity-ui/icons/EyeSlash";
@@ -21,6 +23,7 @@ const SignupForm = () => {
   const [formError, setFormError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [role, setRole] = useState("seekar");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -56,6 +59,7 @@ const SignupForm = () => {
       name,
       email,
       password,
+      role, 
     });
     setIsSubmitting(false);
 
@@ -170,6 +174,30 @@ const SignupForm = () => {
         </div>
         <FieldError className="text-xs text-red-400">{errors.password}</FieldError>
       </TextField>
+      <div className="flex flex-col gap-4">
+      <Label>Subscription plan</Label>
+    <RadioGroup defaultValue="Seekar" onChange={value=>setRole(value)} name="role" orientation="horizontal">
+        <Radio value="Seekar">
+          <Radio.Control>
+            <Radio.Indicator />
+          </Radio.Control>
+          <Radio.Content>
+            <Label>
+             Job Seekar
+            </Label>
+
+          </Radio.Content>
+        </Radio>
+        <Radio value="recruiter">
+          <Radio.Control>
+            <Radio.Indicator />
+          </Radio.Control>
+          <Radio.Content>
+            <Label>Recruiter</Label>
+          </Radio.Content>
+        </Radio>
+      </RadioGroup>
+      </div>
 
       <Button
         type="submit"

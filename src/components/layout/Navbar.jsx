@@ -19,6 +19,7 @@ const Navbar = () => {
   const handleSignOut = async () => {
     close();
     await authClient.signOut();
+    router.push("/auth/login");
     router.refresh();
   };
 
@@ -90,12 +91,13 @@ const Navbar = () => {
           >
             Sign In
           </Link>
-          <Link
-            href="/auth/signup"
-            onClick={close}
-            className="bg-white px-5 py-2 text-sm font-semibold text-black transition-colors rounded-xl hover:bg-white/90"
-          >
-            Sign Up
+          <Link href="/auth/signup" onClick={close}>
+            <Button
+              variant="primary"
+              className="rounded-sm bg-white font-semibold text-black hover:bg-white/90"
+            >
+              Sign Up
+            </Button>
           </Link>
         </>
       );
