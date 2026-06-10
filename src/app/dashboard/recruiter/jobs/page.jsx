@@ -1,13 +1,16 @@
+import ManageJobsTable from "@/components/dashboard/jobs/managejobs/ManageJobsTable";
+import { getCompanyJobs } from "@/lib/api/jobs";
 
 
-const recruiterAllJobs = () => {
+const recruiterAllJobs = async () => {
+
+  const companyId = "company_1";
+  const jobs = (await getCompanyJobs(companyId)) || [];
   return (
-    <div>
-        <h1>
-            Company/All Jobs
-        </h1>
+    <div className="container mx-auto py-8 px-4">
+      <ManageJobsTable jobs={jobs} />
     </div>
-  )
-}
+  );
+};
 
 export default recruiterAllJobs;

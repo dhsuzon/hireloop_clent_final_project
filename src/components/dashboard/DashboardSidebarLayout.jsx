@@ -14,7 +14,7 @@ import ChevronDown from "@gravity-ui/icons/ChevronDown";
 
 const navItems = [
   { icon: Shapes4, label: "Dashboard", href: "/dashboard/recruiter" },
-  { icon: OfficeBadge, label: "My Company", href: "/dashboard/company" },
+  { icon: OfficeBadge, label: "Company Profile", href: "/dashboard/recruiter/company" },
   {
     icon: Briefcase,
     label: "Manage Jobs",

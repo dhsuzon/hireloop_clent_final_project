@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Form, Button } from "@heroui/react";
 import CompanyBanner from "./CompanyBanner";
 import JobInfoSection from "./JobInfoSection";
 import JobDescriptionSection from "./JobDescriptionSection";
 import { validateJob } from "./validateJob";
 
-const PostJobForm = ({ company, onCancel, onSubmit }) => {
+const PostJobForm = ({ company, cancelHref = "/dashboard/recruiter/jobs", onSubmit }) => {
   const [remote, setRemote] = useState(false);
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
@@ -92,15 +93,16 @@ const PostJobForm = ({ company, onCancel, onSubmit }) => {
         )}
 
         <div className="flex justify-end gap-3 border-t border-default pt-4">
-          <Button
-            type="button"
-            variant="secondary"
-            onPress={onCancel}
-            isDisabled={submitting}
-            className="rounded-sm border border-white/30 bg-transparent text-white hover:bg-white/10"
-          >
-            Cancel
-          </Button>
+          <Link href={cancelHref}>
+            <Button
+              type="button"
+              variant="secondary"
+              isDisabled={submitting}
+              className="rounded-sm border border-white/30 bg-transparent text-white hover:bg-white/10"
+            >
+              Cancel
+            </Button>
+          </Link>
           <Button
             type="submit"
             variant="primary"
