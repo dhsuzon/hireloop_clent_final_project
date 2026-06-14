@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { Table, Chip } from "@heroui/react";
+
+import { Table, Chip, Card } from "@heroui/react";
 import EmptyState from "@/components/dashboard/EmptyState";
 
 // Maps a backend status string to a chip color.
@@ -18,10 +19,14 @@ const Avatar = ({ src, name }) =>
       alt={name}
       width={28}
       height={28}
+      loading="eager"
       className="size-7 rounded-full object-cover"
     />
   ) : (
-    <span className="size-7 shrink-0 rounded-full bg-default" />
+    <span
+      aria-hidden={true}
+      className="size-7 shrink-0 rounded-full bg-default"
+    />
   );
 
 const StatusChip = ({ status }) => (
@@ -43,6 +48,7 @@ const RecentApplications = ({ applications = [], onViewAll }) => {
           type="button"
           onClick={onViewAll}
           className="text-sm text-muted transition-colors hover:text-foreground"
+          aria-label="Recent applications list"
         >
           View all
         </button>
@@ -57,53 +63,58 @@ const RecentApplications = ({ applications = [], onViewAll }) => {
         <>
           {/* Desktop / tablet: full table */}
           <div className="hidden md:block">
-            <Table aria-label="Recent applications">
-              <Table.Content>
-                <Table.Header>
-                  <Table.Column isRowHeader>Candidate Name</Table.Column>
-                  <Table.Column>Role</Table.Column>
-                  <Table.Column>Date Applied</Table.Column>
-                  <Table.Column>Experience</Table.Column>
-                  <Table.Column>Status</Table.Column>
-                </Table.Header>
-                <Table.Body items={applications}>
-                  {(item) => (
-                    <Table.Row id={item.id}>
-                      <Table.Cell>
-                        <div className="flex items-center gap-3">
-                          <Avatar src={item.avatar} name={item.name} />
-                          <span className="font-medium text-foreground">
-                            {item.name}
-                          </span>
-                        </div>
-                      </Table.Cell>
-                      <Table.Cell>
-                        <span className="text-muted">{item.role}</span>
-                      </Table.Cell>
-                      <Table.Cell>
-                        <span className="text-muted">{item.dateApplied}</span>
-                      </Table.Cell>
-                      <Table.Cell>
-                        <span className="text-muted">{item.experience}</span>
-                      </Table.Cell>
-                      <Table.Cell>
-                        <StatusChip status={item.status} />
-                      </Table.Cell>
-                    </Table.Row>
-                  )}
-                </Table.Body>
-              </Table.Content>
+            <Table>
+              <Table.ScrollContainer>
+                <Table.Content aria-label="Recent applications table">
+                  <Table.Header>
+                    <Table.Column isRowHeader>Candidate Name</Table.Column>
+                    <Table.Column>Role</Table.Column>
+                    <Table.Column>Date Applied</Table.Column>
+                    <Table.Column>Experience</Table.Column>
+                    <Table.Column>Status</Table.Column>
+                  </Table.Header>
+                  <Table.Body items={applications}>
+                    {(item) => (
+                      <Table.Row id={item.id}>
+                        <Table.Cell>
+                          <div className="flex items-center gap-3">
+                            <Avatar src={item.avatar} name={item.name} />
+                            <span className="font-medium text-foreground">
+                              {item.name}
+                            </span>
+                          </div>
+                        </Table.Cell>
+                        <Table.Cell>
+                          <span className="text-muted">{item.role}</span>
+                        </Table.Cell>
+                        <Table.Cell>
+                          <span className="text-muted">{item.dateApplied}</span>
+                        </Table.Cell>
+                        <Table.Cell>
+                          <span className="text-muted">{item.experience}</span>
+                        </Table.Cell>
+                        <Table.Cell>
+                          <StatusChip status={item.status} />
+                        </Table.Cell>
+                      </Table.Row>
+                    )}
+                  </Table.Body>
+                </Table.Content>
+              </Table.ScrollContainer>
             </Table>
           </div>
 
           {/* Mobile: stacked cards showing every field, no scroll */}
           <ul className="flex flex-col gap-3 md:hidden">
             {applications.map((item) => (
-              <li
+              <Card
                 key={item.id}
-                className="rounded-xl border border-default p-3"
+                as="li"
+                variant="default"
+                className="border border-default bg-content1"
               >
-                <div className="flex items-center justify-between gap-2">
+                {/* 🟢 ১. অফিসিয়াল ডকস অনুযায়ী Card.Header ডট নোটেশন */}
+                <Card.Header className="flex items-center justify-between gap-2 p-3 pb-1">
                   <div className="flex min-w-0 items-center gap-3">
                     <Avatar src={item.avatar} name={item.name} />
                     <span className="truncate font-medium text-foreground">
@@ -111,23 +122,26 @@ const RecentApplications = ({ applications = [], onViewAll }) => {
                     </span>
                   </div>
                   <StatusChip status={item.status} />
-                </div>
+                </Card.Header>
 
-                <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                  <div className="flex flex-col">
-                    <dt className="text-xs text-muted">Role</dt>
-                    <dd className="text-foreground">{item.role}</dd>
-                  </div>
-                  <div className="flex flex-col">
-                    <dt className="text-xs text-muted">Experience</dt>
-                    <dd className="text-foreground">{item.experience}</dd>
-                  </div>
-                  <div className="flex flex-col">
-                    <dt className="text-xs text-muted">Date Applied</dt>
-                    <dd className="text-foreground">{item.dateApplied}</dd>
-                  </div>
-                </dl>
-              </li>
+                {/* 🟢 ২. ফিক্স: Card.Body এর বদলে ডকস অনুযায়ী Card.Content হবে */}
+                <Card.Content className="p-3 pt-2 text-sm">
+                  <dl className="grid grid-cols-2 gap-x-4 gap-y-2">
+                    <div className="flex flex-col">
+                      <dt className="text-xs text-muted">Role</dt>
+                      <dd className="text-foreground">{item.role}</dd>
+                    </div>
+                    <div className="flex flex-col">
+                      <dt className="text-xs text-muted">Experience</dt>
+                      <dd className="text-foreground">{item.experience}</dd>
+                    </div>
+                    <div className="flex flex-col">
+                      <dt className="text-xs text-muted">Date Applied</dt>
+                      <dd className="text-foreground">{item.dateApplied}</dd>
+                    </div>
+                  </dl>
+                </Card.Content>
+              </Card>
             ))}
           </ul>
         </>

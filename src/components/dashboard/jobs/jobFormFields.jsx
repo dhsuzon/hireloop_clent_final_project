@@ -25,7 +25,7 @@ export const SelectField = ({
     validationBehavior="aria"
     className="flex flex-col gap-1.5"
   >
-    <Label>{label}</Label>
+    <Label aria-label={label}>{label}</Label>
     <Select.Trigger className="items-center gap-2">
       {Icon ? <Icon className="size-4 shrink-0 text-muted" /> : null}
       <Select.Value className="flex-1 text-left" />
@@ -36,7 +36,7 @@ export const SelectField = ({
     <Select.Popover>
       <ListBox>
         {items.map((item) => (
-          <ListBox.Item key={item} id={item}>
+          <ListBox.Item key={item} id={item} textValue={item}>
             {item}
           </ListBox.Item>
         ))}

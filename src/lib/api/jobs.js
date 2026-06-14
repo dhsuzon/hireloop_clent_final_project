@@ -1,18 +1,13 @@
-const baseURL = process.env.NEXT_PUBLIC_API_HOST;
+import { serverFetch } from "../core/server";
+//  get a company related job
+export const getCompanyJobs = async (companyId, status = "active") => {
+  return serverFetch(`/api/jobs?companyId=${companyId}&status=${status}`);
+};
 
-export const getCompanyJobs = async(companyId, status = 'active') => {
-    try {
-        const res = await fetch(`${baseURL}/api/jobs?companyId=${companyId}&status=${status}`)
+export const getJobs = async () => {
+  return serverFetch(`/api/jobs`);
+};
 
-        if (!res.ok) {
-            // Handle non-200 responses (e.g. 404 HTML pages) without crashing JSON.parse
-            return [];
-        }
-
-        const data = await res.json();
-        return data;
-    } catch (error) {
-        console.error("Failed to fetch jobs:", error);
-        return [];
-    }
+export const getSingleJobDetailsById = async (job_Id) => {
+  return serverFetch(`/api/jobs/${job_Id}`);
 };

@@ -16,6 +16,7 @@ const TopCompanies = ({ companies = [], onViewAll }) => {
           type="button"
           onClick={onViewAll}
           className="text-sm text-muted transition-colors hover:text-foreground"
+          aria-label="My Top Companies"
         >
           View all
         </button>
@@ -34,44 +35,52 @@ const TopCompanies = ({ companies = [], onViewAll }) => {
               key={company.id ?? company.name}
               className="flex items-center gap-3 border-b border-default py-3 last:border-b-0"
             >
-            <span className="flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-default">
-              {company.logo ? (
-                <Image
-                  src={company.logo}
-                  alt={company.name}
-                  width={36}
-                  height={36}
-                  className="size-full object-cover"
-                />
-              ) : (
-                <Briefcase className="size-4 text-muted" />
-              )}
-            </span>
+              <span className="flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-default">
+                {company.logo ? (
+                  <Image
+                    src={company.logo}
+                    alt={company.name}
+                    width={36}
+                    height={36}
+                    loading="eager"
+                    className="size-full object-cover"
+                  />
+                ) : (
+                  <span aria-label={`Logo for ${company.name}`}>
+                    <Briefcase className="size-4 text-muted" />
+                  </span>
+                )}
+              </span>
 
-            <div className="min-w-0 flex-1">
-              <p className="truncate font-medium text-foreground">
-                {company.name}
-              </p>
-              <p className="truncate text-xs text-muted">
-                {company.industry}
-                {company.location ? ` • ${company.location}` : ""}
-              </p>
-            </div>
+              <div className="min-w-0 flex-1">
+                <p className="truncate font-medium text-foreground">
+                  {company.name}
+                </p>
+                <p className="truncate text-xs text-muted">
+                  {company.industry}
+                  {company.location ? ` • ${company.location}` : ""}
+                </p>
+              </div>
 
-            <div className="text-right">
-              <p className="font-semibold text-foreground">
-                {company.activeJobs}
-              </p>
-              <p className="text-[10px] uppercase tracking-wide text-muted">
-                Active Jobs
-              </p>
-            </div>
+              <div className="text-right">
+                <p className="font-semibold text-foreground">
+                  {company.activeJobs}
+                </p>
+                <p className="text-[10px] uppercase tracking-wide text-muted">
+                  Active Jobs
+                </p>
+              </div>
             </li>
           ))}
         </ul>
       )}
 
-      <Button variant="secondary" className="mt-4 w-full" onPress={onViewAll}>
+      <Button
+        variant="secondary"
+        className="mt-4 w-full"
+        onPress={onViewAll}
+        aria-label="View all companies"
+      >
         View All Companies
       </Button>
     </div>

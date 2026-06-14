@@ -1,11 +1,16 @@
+import { getUserSession } from "@/lib/core/session";
+import CompanyProfile from "./CompanyProfile";
+import { getMyCompany } from "@/lib/api/companies";
 
-
-const page = () => {
+const page = async () => {
+  const user = await getUserSession();
+  console.log("session", user);
+  const company = await getMyCompany(user?.id);
   return (
     <div>
-        <h1>Recruiter/All Jobs</h1>
+      <CompanyProfile recruiter={user} recruiterCompany={company} />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

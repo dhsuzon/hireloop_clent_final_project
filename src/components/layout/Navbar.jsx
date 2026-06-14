@@ -149,7 +149,7 @@ const Navbar = () => {
       <div
         id="mobile-menu"
         className={`lg:hidden overflow-hidden border-t border-white/5 bg-[#1E1E1E] transition-[max-height,opacity] duration-300 ease-out ${
-          isOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"
+          isOpen ? "max-h-100 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <ul className="flex flex-col gap-2 px-4 py-4 sm:px-6">

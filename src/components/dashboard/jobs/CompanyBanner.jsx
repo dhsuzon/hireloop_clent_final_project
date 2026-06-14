@@ -11,7 +11,11 @@ const CompanyBanner = ({ company, isApproved, canPost }) => (
         </p>
       </div>
       {company ? (
-        <Chip size="sm" variant="soft" color={isApproved ? "success" : "warning"}>
+        <Chip
+          size="sm"
+          variant="soft"
+          color={isApproved ? "success" : "warning"}
+        >
           {isApproved ? "Approved" : "Pending approval"}
         </Chip>
       ) : null}

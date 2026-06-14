@@ -59,25 +59,35 @@ const SignupForm = () => {
       name,
       email,
       password,
-      role, 
+      role,
     });
     setIsSubmitting(false);
 
     if (error) {
       const code = error.code ?? "";
-      let friendly = error.message ?? "Could not create your account. Please try again.";
+      let friendly =
+        error.message ?? "Could not create your account. Please try again.";
       if (code === "USER_ALREADY_EXISTS" || /already.*exist/i.test(friendly)) {
-        friendly = "An account with this email already exists. Please sign in instead.";
-      } else if (code === "INVALID_EMAIL" || /invalid.*email|body.*email/i.test(friendly)) {
+        friendly =
+          "An account with this email already exists. Please sign in instead.";
+      } else if (
+        code === "INVALID_EMAIL" ||
+        /invalid.*email|body.*email/i.test(friendly)
+      ) {
         friendly = "Please enter a valid email address.";
-      } else if (code === "PASSWORD_TOO_SHORT" || /password.*short/i.test(friendly)) {
+      } else if (
+        code === "PASSWORD_TOO_SHORT" ||
+        /password.*short/i.test(friendly)
+      ) {
         friendly = "Password must be at least 8 characters.";
       }
       setFormError(friendly);
       return;
     }
 
-    setSuccessMessage("Account created successfully! Redirecting to sign in...");
+    setSuccessMessage(
+      "Account created successfully! Redirecting to sign in...",
+    );
     event.target.reset();
     setTimeout(() => router.push("/auth/login"), 1500);
   };
@@ -89,7 +99,9 @@ const SignupForm = () => {
       className="w-full max-w-md space-y-5 rounded-2xl border border-white/10 bg-[#1E1E1E]/80 p-6 backdrop-blur sm:p-8"
     >
       <div className="space-y-1">
-        <h1 className="text-2xl font-semibold text-white">Create your account</h1>
+        <h1 className="text-2xl font-semibold text-white">
+          Create your account
+        </h1>
         <p className="text-sm text-white/55">
           Start your job search with HireLoop in seconds.
         </p>
@@ -172,31 +184,35 @@ const SignupForm = () => {
             )}
           </button>
         </div>
-        <FieldError className="text-xs text-red-400">{errors.password}</FieldError>
+        <FieldError className="text-xs text-red-400">
+          {errors.password}
+        </FieldError>
       </TextField>
       <div className="flex flex-col gap-4">
-      <Label>Subscription plan</Label>
-    <RadioGroup defaultValue="Seekar" onChange={value=>setRole(value)} name="role" orientation="horizontal">
-        <Radio value="Seekar">
-          <Radio.Control>
-            <Radio.Indicator />
-          </Radio.Control>
-          <Radio.Content>
-            <Label>
-             Job Seekar
-            </Label>
-
-          </Radio.Content>
-        </Radio>
-        <Radio value="recruiter">
-          <Radio.Control>
-            <Radio.Indicator />
-          </Radio.Control>
-          <Radio.Content>
-            <Label>Recruiter</Label>
-          </Radio.Content>
-        </Radio>
-      </RadioGroup>
+        <Label>Subscription plan</Label>
+        <RadioGroup
+          defaultValue="Seekar"
+          onChange={(value) => setRole(value)}
+          name="role"
+          orientation="horizontal"
+        >
+          <Radio value="Seekar">
+            <Radio.Control>
+              <Radio.Indicator />
+            </Radio.Control>
+            <Radio.Content>
+              <Label>Job Seekar</Label>
+            </Radio.Content>
+          </Radio>
+          <Radio value="recruiter">
+            <Radio.Control>
+              <Radio.Indicator />
+            </Radio.Control>
+            <Radio.Content>
+              <Label>Recruiter</Label>
+            </Radio.Content>
+          </Radio>
+        </RadioGroup>
       </div>
 
       <Button
