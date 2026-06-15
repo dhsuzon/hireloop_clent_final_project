@@ -49,10 +49,12 @@ const singleJobDetailspage = async ({ params }) => {
   );
 
   return (
-    <div className="min-h-screen bg-neutral-50/50 dark:bg-neutral-950 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl w-full mx-auto">
+    /* Changed to flex layout with full horizontal and vertical alignment targeting overall centerbody positioning */
+    <div className="min-h-screen bg-neutral-50/50 dark:bg-neutral-950 flex flex-col justify-center items-center py-12 px-4 sm:px-6 lg:px-8 transition-colors">
+      {/* Container wrapper configured to scale cleanly within centered alignment rules */}
+      <div className="max-w-7xl w-full space-y-6">
         {/* Back Button Container */}
-        <div className="mb-6">
+        <div className="mb-2">
           <Link href="/jobs" passHref>
             <Button
               variant="light"
@@ -92,7 +94,7 @@ const singleJobDetailspage = async ({ params }) => {
                     </div>
                   )}
                   <div className="space-y-1.5 flex-1">
-                    <Card.Title className="text-2xl  font-bold tracking-tight text-neutral-900 dark:text-neutral-50  leading-8">
+                    <Card.Title className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-50 leading-8">
                       {title}
                     </Card.Title>
                     <Card.Description className="text-base font-semibold text-blue-600 dark:text-blue-400 block">

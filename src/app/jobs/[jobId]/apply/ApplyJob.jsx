@@ -14,8 +14,10 @@ import {
 } from "@heroui/react";
 import { Link, FolderOpen, Thunderbolt, ArrowRight } from "@gravity-ui/icons";
 import { submitJobseekarApplication } from "@/lib/actions/applicactions";
+import { useRouter } from "next/navigation";
 
 const ApplyJob = ({ applicant, jobinfo }) => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     resumeLink: "",
     portfolioLink: "",
@@ -36,6 +38,7 @@ const ApplyJob = ({ applicant, jobinfo }) => {
       companyName: jobinfo?.company,
       applicantEmail: applicant?.email,
       applicantName: applicant?.name,
+      applicantId: applicant?.id,
       ...formData,
     };
 
@@ -45,8 +48,8 @@ const ApplyJob = ({ applicant, jobinfo }) => {
     if (res.acknowledged) {
       toast.success("Application Submitted Successfully");
     }
-
     handleReset();
+    router.refresh();
   };
 
   const handleReset = () => {
