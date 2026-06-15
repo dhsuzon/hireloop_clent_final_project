@@ -2,25 +2,26 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import {
-  Button,
-  FieldError,
-  Input,
-  Label,
-  TextField,
-} from "@heroui/react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Button, FieldError, Input, Label, TextField } from "@heroui/react";
 import Eye from "@gravity-ui/icons/Eye";
 import EyeSlash from "@gravity-ui/icons/EyeSlash";
 import { authClient } from "@/lib/auth-client";
 
 const SigninForm = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [formError, setFormError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // এখানে নিখুঁত রিডাইরেক্ট হ্যান্ডেল করার জন্য কন্ডিশন যোগ করা হয়েছে
+  const redirectParam = searchParams.get("redirect");
+  const hasValidRedirect =
+    redirectParam && redirectParam !== "/" && redirectParam !== "/auth/signup";
+  const RedirectTo = redirectParam || "/";
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -60,7 +61,7 @@ const SigninForm = () => {
     }
 
     setSuccessMessage("Signed in successfully! Redirecting...");
-    setTimeout(() => router.push("/"), 1500);
+    setTimeout(() => router.push(RedirectTo), 1500);
   };
 
   return (
@@ -137,7 +138,9 @@ const SigninForm = () => {
             )}
           </button>
         </div>
-        <FieldError className="text-xs text-red-400">{errors.password}</FieldError>
+        <FieldError className="text-xs text-red-400">
+          {errors.password}
+        </FieldError>
       </TextField>
 
       <Button
@@ -151,7 +154,11 @@ const SigninForm = () => {
       <p className="text-center text-sm text-white/55">
         Don&apos;t have an account?{" "}
         <Link
-          href="/auth/signup"
+          href={
+            hasValidRedirect
+              ? `/auth/signup?redirect=${encodeURIComponent(redirectParam)}`
+              : "/auth/signup"
+          }
           className="font-medium text-[#5C53FE] hover:text-[#5C53FE]/80"
         >
           Sign up

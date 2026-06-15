@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   Button,
   FieldError,
@@ -18,12 +18,18 @@ import { authClient } from "@/lib/auth-client";
 
 const SignupForm = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [formError, setFormError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [role, setRole] = useState("seekar");
+
+  // এখানে রিডাইরেক্ট প্যারামিটারটি নিখুঁতভাবে চেক করার লজিক যোগ করা হয়েছে
+  const redirectParam = searchParams.get("redirect");
+  const hasValidRedirect =
+    redirectParam && redirectParam !== "/" && redirectParam !== "/auth/login";
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -89,7 +95,13 @@ const SignupForm = () => {
       "Account created successfully! Redirecting to sign in...",
     );
     event.target.reset();
-    setTimeout(() => router.push("/auth/login"), 1500);
+
+    // সাইন-আপ সফল হওয়ার পর জবের লিংক থাকলে লগইন পেজের সাথে পাস হবে, না থাকলে শুধু লগইন পেজে যাবে
+    const loginDestination = hasValidRedirect
+      ? `/auth/login?redirect=${encodeURIComponent(redirectParam)}`
+      : "/auth/login";
+
+    setTimeout(() => router.push(loginDestination), 1500);
   };
 
   return (
@@ -226,7 +238,11 @@ const SignupForm = () => {
       <p className="text-center text-sm text-white/55">
         Already have an account?{" "}
         <Link
-          href="/auth/login"
+          href={
+            hasValidRedirect
+              ? `/auth/login?redirect=${encodeURIComponent(redirectParam)}`
+              : "/auth/login"
+          }
           className="font-medium text-[#5C53FE] hover:text-[#5C53FE]/80"
         >
           Login

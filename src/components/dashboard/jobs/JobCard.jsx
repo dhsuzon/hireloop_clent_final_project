@@ -52,7 +52,7 @@ const JobCard = ({ jobs }) => {
         </div>
 
         {/* Job Title */}
-        <Card.Title className="text-3xl font-semibold tracking-tight capitalize text-white mt-1 text-wrap leading-8">
+        <Card.Title className="text-2xl font-bold tracking-tight capitalize text-white mt-1 text-wrap leading-8">
           {title}
         </Card.Title>
 
@@ -93,7 +93,7 @@ const JobCard = ({ jobs }) => {
         <div className="mt-2 flex flex-col gap-3.5 border-t border-zinc-800/50 pt-4">
           {requirements && (
             <div>
-              <h4 className="text-base font-semibold text-zinc-500 capitalize tracking-wider mb-1">
+              <h4 className="text-base font-medium text-zinc-500 capitalize tracking-wider mb-1">
                 Requirements
               </h4>
               <p className="text-sm text-zinc-300 leading-relaxed">
@@ -103,7 +103,7 @@ const JobCard = ({ jobs }) => {
           )}
           {benefits && (
             <div>
-              <h4 className="text-base  font-semibold text-zinc-500 capitalize tracking-wider mb-1">
+              <h4 className="text-base  font-medium text-zinc-500 capitalize tracking-wider mb-1">
                 Benefits
               </h4>
               <p className="text-sm text-zinc-300 leading-relaxed">

@@ -92,10 +92,10 @@ const singleJobDetailspage = async ({ params }) => {
                     </div>
                   )}
                   <div className="space-y-1.5 flex-1">
-                    <Card.Title className="text-2xl sm:text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-50 block">
+                    <Card.Title className="text-2xl  font-bold tracking-tight text-neutral-900 dark:text-neutral-50  leading-8">
                       {title}
                     </Card.Title>
-                    <Card.Description className="text-md font-bold text-blue-600 dark:text-blue-400 block">
+                    <Card.Description className="text-base font-semibold text-blue-600 dark:text-blue-400 block">
                       {company}
                     </Card.Description>
 
@@ -133,15 +133,13 @@ const singleJobDetailspage = async ({ params }) => {
                 </div>
 
                 {/* HeroUI V3 Purple Action Button */}
-                <Button
-                  color="primary"
-                  size="lg"
-                  className="w-full sm:w-auto font-bold text-white bg-linear-to-r from-purple-500 to-purple-700 rounded-lg shadow-lg shadow-blue-500/20 transition-all duration-200"
-                  radius="xl"
+                <Link
+                  href={`/jobs/${jobId}/apply`}
+                  className="w-full sm:w-auto h-12 px-6 inline-flex items-center justify-center gap-2 font-bold text-white bg-linear-to-r from-purple-500 to-purple-700 rounded-xl shadow-lg shadow-purple-500/20 hover:opacity-95 active:scale-98 transition-all duration-200 text-base select-none"
                 >
-                  Apply Now
-                  <ArrowRight />
-                </Button>
+                  <span className="text-nowrap">Apply Now</span>
+                  <ArrowRight width={16} height={16} />
+                </Link>
               </Card.Header>
 
               {/* Quick Info Boxes & Responsibilities */}
@@ -153,10 +151,10 @@ const singleJobDetailspage = async ({ params }) => {
                       <CircleDollar width={24} height={24} />
                     </div>
                     <div>
-                      <span className="text-xs font-semibold uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
+                      <span className="text-base font-bold capitalize tracking-wider text-neutral-400 dark:text-neutral-500">
                         Salary Range
                       </span>
-                      <h3 className="text-lg font-extrabold text-neutral-800 dark:text-neutral-200 mt-0.5">
+                      <h3 className="text-sm font-medium text-neutral-800 dark:text-neutral-200 mt-0.5 ">
                         ${salary?.min?.toLocaleString()} - $
                         {salary?.max?.toLocaleString()}{" "}
                         <span className="text-xs font-normal text-neutral-500">
@@ -172,10 +170,10 @@ const singleJobDetailspage = async ({ params }) => {
                       <Calendar width={24} height={24} />
                     </div>
                     <div>
-                      <span className="text-xs font-semibold uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
+                      <span className="text-base font-bold capitalize tracking-wider text-neutral-400 dark:text-neutral-500">
                         Application Deadline
                       </span>
-                      <h3 className="text-lg font-extrabold text-rose-600 dark:text-rose-400 mt-0.5">
+                      <h3 className="text-sm font-medium text-rose-600 dark:text-rose-400 mt-0.5">
                         {formattedDeadline}
                       </h3>
                     </div>
@@ -185,10 +183,10 @@ const singleJobDetailspage = async ({ params }) => {
                 {/* Core Responsibilities Box */}
                 {responsibilities && (
                   <div className="space-y-2">
-                    <h2 className="text-xl font-bold text-neutral-900 dark:text-neutral-100">
+                    <h2 className="text-lg font-bold text-neutral-900 dark:text-neutral-100">
                       Core Responsibilities
                     </h2>
-                    <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed bg-neutral-50/30 dark:bg-neutral-900/20 p-5 rounded-2xl border border-neutral-100 dark:border-neutral-800/50">
+                    <p className="text-neutral-600 text-base font-medium dark:text-neutral-400 leading-relaxed bg-neutral-50/30 dark:bg-neutral-900/20 p-5 rounded-2xl border border-neutral-100 dark:border-neutral-800/50">
                       {responsibilities}
                     </p>
                   </div>
@@ -209,10 +207,10 @@ const singleJobDetailspage = async ({ params }) => {
                 {/* Requirements & Skills Box */}
                 {requirements && (
                   <div className="space-y-2">
-                    <h2 className="text-xl font-bold text-neutral-900 dark:text-neutral-100">
+                    <h2 className="text-lg font-bold text-neutral-900 dark:text-neutral-100">
                       Requirements & Skills
                     </h2>
-                    <div className="bg-neutral-50/30 dark:bg-neutral-900/20 p-6 rounded-2xl border border-neutral-100 dark:border-neutral-800/50">
+                    <div className="bg-neutral-50/30 dark:bg-neutral-900/20 p-6 text-base font-medium rounded-2xl border border-neutral-100 dark:border-neutral-800/50">
                       <ul className="list-disc list-inside text-neutral-600 dark:text-neutral-400 space-y-3">
                         {requirements.split(",").map((req, index) => (
                           <li key={index} className="leading-relaxed">
@@ -229,10 +227,10 @@ const singleJobDetailspage = async ({ params }) => {
                 {/* Perks & Benefits Box */}
                 {benefits && (
                   <div className="space-y-2">
-                    <h2 className="text-xl font-bold text-neutral-900 dark:text-neutral-100">
+                    <h2 className="text-lg font-bold text-neutral-900 dark:text-neutral-100">
                       Perks & Benefits
                     </h2>
-                    <div className="bg-neutral-50/30 dark:bg-neutral-900/20 p-6 rounded-2xl border border-neutral-100 dark:border-neutral-800/50">
+                    <div className="bg-neutral-50/30 dark:bg-neutral-900/20 p-6 rounded-2xl border text-base border-neutral-100 dark:border-neutral-800/50">
                       <ul className="list-disc list-inside text-neutral-600 dark:text-neutral-400 space-y-3">
                         {benefits.split(",").map((benefit, index) => (
                           <li key={index} className="leading-relaxed">
