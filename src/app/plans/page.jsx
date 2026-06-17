@@ -19,7 +19,7 @@ export default function ModernPricingPage() {
   const seekerPlans = [
     {
       name: "Free",
-      id: "seekar_free",
+      id: "seeker_free",
       price: "0",
       period: "/forever",
       description: "Essential tools to kickstart your career journey.",
@@ -34,7 +34,7 @@ export default function ModernPricingPage() {
     },
     {
       name: "Pro",
-      id: "seekar_pro",
+      id: "seeker_pro",
       price: "19",
       period: "/month",
       description: "Supercharge your applications & unlock advanced insights.",
@@ -50,7 +50,7 @@ export default function ModernPricingPage() {
     },
     {
       name: "Premium",
-      id: "seekar_premium",
+      id: "seeker_premium",
       price: "39",
       period: "/month",
       description: "Complete visibility package to land top-tier roles fast.",

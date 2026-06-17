@@ -1,31 +1,42 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { stripe } from "../../../lib/stripe";
-import { ArrowLeft, Check, CircleCheckFill } from "@gravity-ui/icons";
+import { ArrowLeft, CircleCheckFill } from "@gravity-ui/icons";
+import { creatPlanSubscription } from "@/lib/actions/planSubscriptions";
 
-export default async function Success({ searchParams }) {
+const Success = async ({ searchParams }) => {
   const { session_id } = await searchParams;
 
   if (!session_id) {
     throw new Error("Please provide a valid session_id (`cs_test_...`)");
   }
 
-  const { status, customer_details: { email: customerEmail } = {} } =
-    await stripe.checkout.sessions.retrieve(session_id, {
-      expand: ["line_items", "payment_intent"],
-    });
+  const {
+    status,
+    metadata,
+    customer_details: { email: customerEmail } = {},
+  } = await stripe.checkout.sessions.retrieve(session_id, {
+    expand: ["line_items", "payment_intent"],
+  });
 
   if (status === "open") {
     return redirect("/");
   }
 
   if (status === "complete") {
+    const subsInfo = {
+      email: customerEmail,
+      planId: metadata.planId,
+    };
+    const result = await creatPlanSubscription(subsInfo);
+    console.log("subscriptionInfo", result);
+
     return (
       <main className="min-h-screen bg-zinc-950 flex items-center justify-center p-4 antialiased selection:bg-purple-500/30">
         <div className="max-w-md w-full bg-zinc-900 rounded-2xl shadow-2xl border border-zinc-800 p-8 text-center">
           {/* Success Icon with Green Subtle Glow */}
           <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-6 shadow-[0_0_20px_rgba(16,185,129,0.15)]">
-            <CircleCheckFill className="w-16 h-16 text-success bg-white rounded-full" />
+            <CircleCheckFill className="w-16 h-16 text-success bg-purple-600 rounded-full" />
           </div>
 
           {/* Heading */}
@@ -95,4 +106,5 @@ export default async function Success({ searchParams }) {
   }
 
   return null;
-}
+};
+export default Success;

@@ -24,7 +24,7 @@ const SignupForm = () => {
   const [formError, setFormError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [role, setRole] = useState("seekar");
+  const [role, setRole] = useState("seeker");
 
   // এখানে রিডাইরেক্ট প্যারামিটারটি নিখুঁতভাবে চেক করার লজিক যোগ করা হয়েছে
   const redirectParam = searchParams.get("redirect");
@@ -61,11 +61,13 @@ const SignupForm = () => {
     }
 
     setIsSubmitting(true);
+    const plan = role === "seeker" ? "seeker_free" : "recruiter_free";
     const { error } = await authClient.signUp.email({
       name,
       email,
       password,
       role,
+      plan,
     });
     setIsSubmitting(false);
 
@@ -203,12 +205,12 @@ const SignupForm = () => {
       <div className="flex flex-col gap-4">
         <Label>Subscription plan</Label>
         <RadioGroup
-          defaultValue="Seekar"
+          defaultValue="seeker"
           onChange={(value) => setRole(value)}
           name="role"
           orientation="horizontal"
         >
-          <Radio value="Seekar">
+          <Radio value="seeker">
             <Radio.Control>
               <Radio.Indicator />
             </Radio.Control>

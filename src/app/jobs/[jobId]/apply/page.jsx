@@ -5,22 +5,24 @@ import ApplyJob from "./ApplyJob";
 import { getApplicationByApplicantId } from "@/lib/api/applications";
 import Link from "next/link";
 import { CircleInfo, Rocket, Lock, CircleExclamation } from "@gravity-ui/icons";
+import { getPlanById } from "@/lib/api/plans";
 
 const page = async ({ params }) => {
-  const plan = {
-    name: "Free Plan",
-    maxApplicationPerMont: 3,
-  };
+  // const plan = {
+  //   name: "Free Plan",
+  //   maxApplicationPerMont: 3,
+  // };
 
   const { jobId } = await params;
   const user = await getUserSession();
+  const plan = (await getPlanById(user?.plan)) || "seeker_free";
 
   if (!user) {
     redirect(`/auth/login?redirect=/jobs/${jobId}/apply`);
   }
 
   // Role verification state ("seekar")
-  if (user.role !== "seekar") {
+  if (user.role !== "seeker") {
     return (
       <div className="w-full min-h-[80vh] flex flex-col justify-center items-center p-4 bg-zinc-50 dark:bg-zinc-950 transition-colors">
         <div className="max-w-md w-full text-center p-8 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm">
