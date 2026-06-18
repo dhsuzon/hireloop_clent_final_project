@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@heroui/react";
@@ -23,37 +23,24 @@ const Navbar = () => {
     router.refresh();
   };
 
-  const navLinks = (
-    <>
-      <li>
-        <Link
-          href="/jobs"
-          onClick={close}
-          className="block rounded-full px-4 py-2 text-sm font-medium text-white/80 transition-colors hover:bg-white/10 hover:text-white"
-        >
-          Browse Jobs
-        </Link>
-      </li>
-      <li>
-        <Link
-          href="/company"
-          onClick={close}
-          className="block rounded-full px-4 py-2 text-sm font-medium text-white/80 transition-colors hover:bg-white/10 hover:text-white"
-        >
-          Company
-        </Link>
-      </li>
-      <li>
-        <Link
-          href="/plans"
-          onClick={close}
-          className="block rounded-full px-4 py-2 text-sm font-medium text-white/80 transition-colors hover:bg-white/10 hover:text-white"
-        >
-          Pricing
-        </Link>
-      </li>
-    </>
-  );
+  const linksArray = [
+    { href: "/jobs", label: "Browse Jobs" },
+    { href: "/company", label: "Company" },
+    { href: "/plans", label: "Pricing" },
+  ];
+
+  const dashboardLinks = {
+    seeker: "/dashboard/seeker",
+    recruiter: "/dashboard/recruiter",
+    admin: "/dashboard/admin",
+  };
+
+  if (user?.email) {
+    linksArray.push({
+      href: dashboardLinks[user?.role || "seeker"],
+      label: "Dashboard",
+    });
+  }
 
   let navEndInfo;
   if (isPending) {
@@ -98,7 +85,6 @@ const Navbar = () => {
         </Link>
         <Link href="/auth/signup" onClick={close} className="w-full lg:w-auto">
           <Button
-            // 🚨 ফিক্স: variant="primary" বদলে v3 এর নিয়ম অনুযায়ী color বা light ভেরিয়েন্ট ব্যবহার
             variant="light"
             className="w-full lg:w-auto rounded-sm bg-white font-semibold text-black hover:bg-white/90"
           >
@@ -120,16 +106,29 @@ const Navbar = () => {
         {/* ডেক্সটপ ভিউ */}
         <div className="hidden items-center gap-6 lg:flex">
           <ul className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-2 py-1">
-            {navLinks}
+            {/* 💡 ডেক্সটপ ইউনিক কী ফিক্স */}
+            {linksArray.map((link) => (
+              <li key={`desktop-${link.href}`}>
+                <Link
+                  href={link.href}
+                  onClick={close}
+                  className="block rounded-full px-4 py-2 text-sm font-medium text-white/80 transition-colors hover:bg-white/10 hover:text-white"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
           </ul>
           <span aria-hidden="true" className="h-6 w-px bg-white/20" />
-          {navEndInfo}
+
+          {/* 💡 ডেক্সটপ কন্টেন্ট কী ফিক্স */}
+          <React.Fragment key="desktop-auth-view">{navEndInfo}</React.Fragment>
         </div>
 
         {/* মোবাইল হ্যামবার্গার বাটন */}
         <Button
           isIconOnly
-          variant="light" // 🚨 ghost এর বদলে v3 তে light বা flat বেস্ট
+          variant="light"
           size="md"
           className="text-white lg:hidden bg-transparent min-w-10 h-10"
           aria-label={isOpen ? "Close menu" : "Open menu"}
@@ -153,8 +152,23 @@ const Navbar = () => {
         }`}
       >
         <ul className="flex flex-col gap-2 px-4 py-4 sm:px-6">
-          {navLinks}
-          <li className="mt-2 border-t border-white/5 pt-4">{navEndInfo}</li>
+          {/* 💡 মোবাইল ইউনিক কী ফিক্স */}
+          {linksArray.map((link) => (
+            <li key={`mobile-${link.href}`}>
+              <Link
+                href={link.href}
+                onClick={close}
+                className="block rounded-full px-4 py-2 text-sm font-medium text-white/80 transition-colors hover:bg-white/10 hover:text-white"
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+
+          {/* 💡 মোবাইল কন্টেন্ট কী ফিক্স */}
+          <li className="mt-2 border-t border-white/5 pt-4">
+            <React.Fragment key="mobile-auth-view">{navEndInfo}</React.Fragment>
+          </li>
         </ul>
       </div>
     </header>
