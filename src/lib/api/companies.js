@@ -5,6 +5,10 @@ export const getMyCompany = async (recruiterId) => {
   return serverFetch(`/api/my/companies?recruiterId=${recruiterId}`);
 };
 
+export const getAllCompanies = async () => {
+  return serverFetch("/api/my/companies/all");
+};
+
 export const getLoggedRecruiterCompany = async () => {
   const user = await getUserSession();
   return getMyCompany(user?.id);

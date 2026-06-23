@@ -175,27 +175,32 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button, Drawer } from "@heroui/react";
 import LayoutSideContentLeft from "@gravity-ui/icons/LayoutSideContentLeft";
-import Shapes4 from "@gravity-ui/icons/Shapes4";
-import OfficeBadge from "@gravity-ui/icons/OfficeBadge";
-import Briefcase from "@gravity-ui/icons/Briefcase";
-import FileText from "@gravity-ui/icons/FileText";
-import Gear from "@gravity-ui/icons/Gear";
-import ChevronDown from "@gravity-ui/icons/ChevronDown";
-import Bookmark from "@gravity-ui/icons/Bookmark";
-import Magnifier from "@gravity-ui/icons/Magnifier";
-import CreditCard from "@gravity-ui/icons/CreditCard";
 
-// 💡 সার্ভার থেকে আসা স্ট্রিন নামকে একচুয়াল আইকন কম্পোনেন্টে ম্যাপ করার অবজেক্ট
-const iconRegistry = {
-  Shapes4,
-  OfficeBadge,
-  Briefcase,
+import {
+  LayoutDashboard,
+  Users,
+  Building2,
+  BriefcaseBusiness,
+  CreditCard,
+  Settings,
   FileText,
-  Gear,
+  Bookmark,
+  ChevronDown,
+  Search,
+} from "lucide-react";
+
+const iconRegistry = {
+  LayoutDashboard,
+  BriefcaseBusiness,
+  FileText,
+  Settings,
   ChevronDown,
   Bookmark,
-  Magnifier,
+  Search,
   CreditCard,
+  Building2,
+  Users,
+  Building2,
 };
 
 const DashboardSidebarLayout = ({ currentNavItems = [] }) => {

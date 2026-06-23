@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import NoCompanyResgisted from "@/components/dashboard/company/NoCompanyResgisted";
 import CompanyForm from "@/components/dashboard/company/CompanyForm";
 import CompanyDetails from "@/components/dashboard/company/CompanyDetails";
-import { getCompaines } from "@/lib/actions/companies";
+import { createCompaines } from "@/lib/actions/companies";
 import { toast } from "@heroui/react";
 
 const CompanyProfile = ({ recruiterCompany, onSave, recruiter }) => {
@@ -24,7 +24,7 @@ const CompanyProfile = ({ recruiterCompany, onSave, recruiter }) => {
     formData.append("image", file);
 
     try {
-      const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY; // আপনার আসল এপিআই কি এখানে বসাবেন
+      const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
       const res = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
         method: "POST",
         body: formData,
@@ -43,50 +43,55 @@ const CompanyProfile = ({ recruiterCompany, onSave, recruiter }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitError("");
-
     setSubmitting(true);
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData);
-
-    const payload = {
-      ...data,
-      logo: logoUrl,
-      status: company?.status || "pending",
-      recruiterId: recruiter.id,
-    };
-    console.log(payload);
-    const payloadInfo = await getCompaines(payload);
-
-    if (payloadInfo.acknowledged) {
-      toast.success("Company registered successfully");
-    } else {
-      toast.error("Failed to register company");
-    }
 
     try {
-      if (onSave) await onSave(payload);
-      setCompany(payload);
-      setIsEditing(false); // সাবমিট শেষে এডিটিং মোড অফ হবে
+      const formData = new FormData(e.currentTarget);
+      const data = Object.fromEntries(formData);
+
+      const payload = {
+        _id: company?._id, // Ensure ID is passed to backend for update logic
+        ...data,
+        logo: logoUrl,
+        status: company?.status || "pending",
+        recruiterId: recruiter.id,
+      };
+
+      const result = await createCompaines(payload);
+
+      if (result?.acknowledged) {
+        toast.success("Company saved successfully");
+
+        const updatedCompany = {
+          ...payload,
+          _id: company?._id || result.insertedId,
+        };
+
+        setCompany(updatedCompany);
+        setIsEditing(false);
+
+        if (onSave) await onSave(updatedCompany);
+      } else {
+        throw new Error("Database operation failed");
+      }
     } catch (err) {
-      setSubmitError("Failed to save");
+      setSubmitError("Failed to save company details");
+      toast.error("Failed to register company");
     } finally {
       setSubmitting(false);
     }
   };
 
-  // ১. কোনো কোম্পানি রেজিস্টার্ড নেই এবং এডিট মোডও অফ
-  if (!company._id && !isEditing) {
+  if (!company?._id && !isEditing) {
     return <NoCompanyResgisted onResgisted={() => setIsEditing(true)} />;
   }
 
-  // ২. কোম্পানি ডাটা আছে কিন্তু এডিট মোড অফ (সাবমিট হওয়ার পর এটি স্ক্রিনে দেখাবে)
-  if (company && !isEditing) {
+  if (company?._id && !isEditing) {
     return (
       <CompanyDetails company={company} onEdit={() => setIsEditing(true)} />
     );
   }
 
-  // ৩. এডিট মোড অন থাকলে (isEditing === true) ফর্মটি দেখাবে
   return (
     <CompanyForm
       company={company}

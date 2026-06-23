@@ -1,7 +1,7 @@
 import { Chip } from "@heroui/react";
 
 // Shows which company the job is posted under + approval gate messaging.
-const CompanyBanner = ({ company, isApproved, canPost }) => (
+const CompanyBanner = ({ company, isApproved }) => (
   <>
     <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-default bg-default/40 p-4">
       <div>
@@ -20,14 +20,6 @@ const CompanyBanner = ({ company, isApproved, canPost }) => (
         </Chip>
       ) : null}
     </div>
-
-    {!canPost && (
-      <div className="mb-6 rounded-xl border border-warning/40 bg-warning/10 p-4 text-sm text-warning">
-        {company
-          ? "Your company must be approved before you can post jobs."
-          : "Register and get your company approved to start posting jobs."}
-      </div>
-    )}
   </>
 );
 

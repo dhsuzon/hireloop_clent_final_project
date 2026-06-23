@@ -1,19 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import PostJobForm from "@/components/dashboard/jobs/PostJobForm";
 import { createJobs } from "@/lib/actions/job";
-import { toast } from "@heroui/react";
+import { toast } from "react-toastify";
 
 const NewJobPostClient = ({ company }) => {
-  console.log("this is recruiter company", company);
-  // 🟢 status বাদ দিয়ে isApproved: true (boolean) যোগ করা হলো
-  // const [company] = useState({
-  //   id: "company_1",
-  //   name: "Acme Corp",
-  //   isApproved: true,
-  // });
-
   const handleSubmit = async (job) => {
     try {
       await createJobs(job);
@@ -23,14 +15,26 @@ const NewJobPostClient = ({ company }) => {
       console.error(error);
     }
   };
+  const normalized_status = company?.status.toLowerCase();
+  const isApproved = normalized_status === "approved";
 
   return (
     <div className="px-4 py-6 sm:px-6 lg:px-8">
-      <PostJobForm
-        company={company}
-        onSubmit={handleSubmit}
-        cancelHref="/dashboard/recruiter/jobs"
-      />
+      {isApproved ? (
+        <PostJobForm
+          company={company}
+          onSubmit={handleSubmit}
+          cancelHref="/dashboard/recruiter/jobs"
+        />
+      ) : (
+        <div className="mt-4 rounded-xl border border-warning/40 bg-warning/10 p-6 text-center text-warning">
+          <p>
+            Your company status is{" "}
+            <strong>{company?.status || "pending"}</strong>. You must be
+            approved by an admin to see the job posting form.
+          </p>
+        </div>
+      )}
     </div>
   );
 };

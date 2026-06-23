@@ -14,29 +14,17 @@ const PostJobForm = ({
   onSubmit,
 }) => {
   const [remote, setRemote] = useState(false);
-  const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState(null);
 
-  // const isApproved = company?.isApproved ?? false;
-  // const canPost = Boolean(company) && isApproved;
-  const isApproved = true;
-  const canPost = true;
+  const normalized_status = company?.status.toLowerCase();
+  const isApproved = normalized_status === "approved";
+  const canPost = isApproved;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // if (!canPost || submitting) return;
+    if (!canPost || submitting) return;
 
     const data = Object.fromEntries(new FormData(event.currentTarget));
-
-    const validationErrors = validateJob(data, { remote });
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
-    setErrors({});
-    setSubmitError(null);
-
     const job = {
       title: data.title.trim(),
       category: data.category,
@@ -59,17 +47,9 @@ const PostJobForm = ({
       visibility: "public",
     };
 
-    try {
-      setSubmitting(true);
-      await onSubmit?.(job);
-    } catch (err) {
-      setSubmitError(
-        err?.message ??
-          "Something went wrong while posting the job. Please try again.",
-      );
-    } finally {
-      setSubmitting(false);
-    }
+    setSubmitting(true);
+    await onSubmit?.(job);
+    setSubmitting(false);
   };
 
   return (
@@ -82,42 +62,27 @@ const PostJobForm = ({
           Fill in the details below to publish a new opening for your company.
         </p>
       </div>
-      <CompanyBanner
-        company={company}
-        isApproved={isApproved}
-        canPost={canPost}
-      />
-      <Form
-        onSubmit={handleSubmit}
-        validationBehavior="aria"
-        validationErrors={errors}
-        className="flex flex-col gap-8"
-      >
+
+      <CompanyBanner company={company} isApproved={isApproved} />
+
+      <Form onSubmit={handleSubmit} className="flex flex-col gap-8">
         <JobInfoSection remote={remote} setRemote={setRemote} />
         <JobDescriptionSection />
-
-        {submitError && (
-          <div className="rounded-xl border border-danger/40 bg-danger/10 p-4 text-sm text-danger">
-            {submitError}
-          </div>
-        )}
 
         <div className="flex justify-end gap-3 border-t border-default pt-4">
           <Link href={cancelHref}>
             <Button
               type="button"
               variant="secondary"
-              isDisabled={submitting}
-              className="rounded-sm border border-white/30 bg-transparent text-white hover:bg-white/10"
+              className="rounded-sm border border-white/30 bg-transparent text-white"
             >
               Cancel
             </Button>
           </Link>
           <Button
             type="submit"
-            variant="primary"
-            isDisabled={!canPost || submitting}
-            className="rounded-sm bg-white font-bold text-black hover:bg-white/90"
+            isDisabled={submitting}
+            className="rounded-sm bg-white font-bold text-black"
           >
             {submitting ? "Posting…" : "Post Job"}
           </Button>
