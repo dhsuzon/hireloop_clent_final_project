@@ -5,7 +5,6 @@ import JobFilters from "./JobFilters";
 import JobCard from "@/components/dashboard/jobs/JobCard";
 import { useRouter } from "next/navigation";
 import { Pagination } from "@heroui/react";
-import { set } from "date-fns";
 
 const JobFiltersContainer = ({ jobs = [], filters, alljobs, totaljobs }) => {
   const [search, setSearch] = useState(filters.search);
