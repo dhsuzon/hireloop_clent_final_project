@@ -4,10 +4,10 @@ import { getCompanyJobs } from "@/lib/api/jobs";
 
 const recruiterAllJobs = async () => {
   const company = await getLoggedRecruiterCompany();
-  const jobs = await getCompanyJobs(company._id);
+  const { perjobs } = await getCompanyJobs(company._id);
   return (
     <div className="container mx-auto py-8 px-4">
-      <ManageJobsTable jobs={jobs} />
+      <ManageJobsTable jobs={perjobs} />
     </div>
   );
 };
