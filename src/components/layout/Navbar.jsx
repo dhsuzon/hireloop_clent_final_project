@@ -24,7 +24,7 @@ const Navbar = () => {
   };
 
   const linksArray = [
-    { href: "/jobs?page=1", label: "Browse Jobs" },
+    { href: "/jobs", label: "Browse Jobs" },
     { href: "/company", label: "Company" },
     { href: "/plans", label: "Pricing" },
   ];
