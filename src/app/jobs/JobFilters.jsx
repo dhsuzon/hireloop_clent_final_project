@@ -5,7 +5,7 @@ import { InputGroup, TextField, Label, Select, ListBox } from "@heroui/react";
 import { Magnifier, ChevronDown } from "@gravity-ui/icons";
 
 const JobFilters = ({
-  alljobs,
+  alljobs = [], // ডিফল্ট খালি অ্যারে
   search,
   setSearch,
   category,
@@ -15,23 +15,31 @@ const JobFilters = ({
   remoteOnly,
   setRemoteOnly,
 }) => {
+  const safeAllJobs = useMemo(() => {
+    return Array.isArray(alljobs) ? alljobs : [];
+  }, [alljobs]);
+
   const uniqueCategories = useMemo(
     () => [
       "all",
-      ...Array.from(new Set(alljobs.map((j) => j.category).filter(Boolean))),
+      ...Array.from(
+        new Set(safeAllJobs.map((j) => j.category).filter(Boolean)),
+      ),
     ],
-    [alljobs],
+    [safeAllJobs],
   );
+
   const uniqueTypes = useMemo(
     () => [
       "all",
-      ...Array.from(new Set(alljobs.map((j) => j.type).filter(Boolean))),
+      ...Array.from(new Set(safeAllJobs.map((j) => j.type).filter(Boolean))),
     ],
-    [alljobs],
+    [safeAllJobs],
   );
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end mb-8 bg-[#121212] p-5 rounded-2xl border border-zinc-800/50">
+      {/* Search Input */}
       <div className="md:col-span-4">
         <TextField>
           <Label className="text-zinc-400 text-xs font-semibold mb-1.5 block">
@@ -42,7 +50,7 @@ const JobFilters = ({
             <InputGroup.Input
               type="text"
               placeholder="Title, tech stacks..."
-              value={search}
+              value={search || ""}
               onChange={(e) => setSearch(e.target.value)}
               className="bg-transparent text-white w-full text-sm focus:outline-none"
             />
@@ -50,6 +58,7 @@ const JobFilters = ({
         </TextField>
       </div>
 
+      {/* Category Select */}
       <div className="md:col-span-3">
         <Select>
           <Label className="text-zinc-400 text-xs font-semibold mb-1.5 block">
@@ -80,6 +89,7 @@ const JobFilters = ({
         </Select>
       </div>
 
+      {/* Job Type Select */}
       <div className="md:col-span-3">
         <Select>
           <Label className="text-zinc-400 text-xs font-semibold mb-1.5 block">
@@ -110,6 +120,7 @@ const JobFilters = ({
         </Select>
       </div>
 
+      {/* Remote Toggle */}
       <div className="md:col-span-2 flex items-center justify-end pb-1.5">
         <label className="flex items-center gap-3 cursor-pointer">
           <span className="text-zinc-400 text-xs font-semibold">
@@ -117,7 +128,7 @@ const JobFilters = ({
           </span>
           <input
             type="checkbox"
-            checked={remoteOnly}
+            checked={!!remoteOnly}
             onChange={(e) => setRemoteOnly(e.target.checked)}
             className="sr-only peer"
           />

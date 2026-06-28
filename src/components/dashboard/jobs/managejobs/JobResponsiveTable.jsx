@@ -1,7 +1,7 @@
 import React from "react";
 import JobActions from "./jobactions/JobActions";
 
-const JobResponsiveTable = ({ jobs }) => {
+const JobResponsiveTable = ({ jobs = [] }) => {
   // ১. ইউনিক কি (Key) ফরম্যাট করা
   const formattedJobs = jobs.map((job) => ({
     ...job,
