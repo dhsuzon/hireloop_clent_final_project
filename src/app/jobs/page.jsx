@@ -12,6 +12,7 @@ const JobPage = async ({ searchParams }) => {
 
   const alljobs = await getJobs();
   const { perjobs, totaljobs } = await getJobs(qureyString);
+  console.log("jkjfdkjgdkj", perjobs);
 
   return (
     <div className="min-h-screen bg-zinc-950 p-6 md:p-10">
@@ -24,7 +25,7 @@ const JobPage = async ({ searchParams }) => {
           <p className="text-zinc-400 text-sm mt-1">
             Current open roles tailored for you.
           </p>
-          <p>Per Page Jobs {perjobs.length}</p>
+          <p>Per Pager {perjobs.length}</p>
         </header>
 
         {/* Dynamic client filter shell handles input state and 3-column rendering loop */}
