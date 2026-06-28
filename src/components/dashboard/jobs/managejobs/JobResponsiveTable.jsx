@@ -1,7 +1,7 @@
 import React from "react";
 import JobActions from "./jobactions/JobActions";
 
-const JobResponsiveTable = ({ jobs = [] }) => {
+const JobResponsiveTable = ({ jobs }) => {
   // ১. ইউনিক কি (Key) ফরম্যাট করা
   const formattedJobs = jobs.map((job) => ({
     ...job,
@@ -10,12 +10,10 @@ const JobResponsiveTable = ({ jobs = [] }) => {
 
   return (
     <>
-    
       <div className="hidden md:block w-full rounded-xl border border-white/10 bg-transparent overflow-hidden">
         <table className="w-full bg-transparent text-sm text-left text-white border-collapse">
           <thead>
             <tr className="bg-white/5 text-xs font-semibold capitalize text-white tracking-wider border-b border-white/10">
-
               <th
                 scope="col"
                 className="capitalize px-6 py-4 font-semibold align-middle"
@@ -40,7 +38,7 @@ const JobResponsiveTable = ({ jobs = [] }) => {
               >
                 Status
               </th>
-            
+
               <th
                 scope="col"
                 className="text-center capitalize px-6 py-4 font-semibold align-middle"

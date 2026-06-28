@@ -12,7 +12,6 @@ const JobPage = async ({ searchParams }) => {
 
   const alljobs = await getJobs();
   const { perjobs, totaljobs } = await getJobs(qureyString);
-  console.log("jkjfdkjgdkj", perjobs);
 
   return (
     <div className="min-h-screen bg-zinc-950 p-6 md:p-10">

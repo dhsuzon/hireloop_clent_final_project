@@ -1,7 +1,7 @@
 import JobResponsiveTableCard from "./JobResponsiveTableCard";
 import JobResponsiveTable from "./JobResponsiveTable";
 
-const ManageJobsTable = ({ jobs = [] }) => {
+const ManageJobsTable = ({ jobs }) => {
   return (
     <div className="w-full p-6 bg-transparent rounded-xl border border-white/10 backdrop-blur-md">
       <div className="mb-6">

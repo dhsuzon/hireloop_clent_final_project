@@ -1,7 +1,6 @@
-
 import JobActions from "./jobactions/JobActions";
 
-const JobResponsiveTable = ({ jobs = [] }) => {
+const JobResponsiveTable = ({ jobs }) => {
   return (
     <>
       <div className="block md:hidden space-y-4">
