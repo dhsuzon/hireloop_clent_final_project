@@ -15,7 +15,7 @@ const NewJobPostClient = ({ company }) => {
       console.error(error);
     }
   };
-  const normalized_status = company?.status.toLowerCase();
+  const normalized_status = company?.status?.toLowerCase();
   const isApproved = normalized_status === "approved";
 
   return (

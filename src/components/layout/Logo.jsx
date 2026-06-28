@@ -13,6 +13,7 @@ const Logo = ({ priority = false }) => (
       width={154}
       height={44}
       priority={priority}
+      loading="eager"
       className="h-11 w-auto object-contain sm:h-12"
     />
   </Link>

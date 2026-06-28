@@ -54,7 +54,7 @@ const DashboardSideBarServerLayout = async ({ children }) => {
   ];
   const admin = [
     { icon: "LayoutDashboard", label: "Dashboard", href: "/dashboard/admin" },
-    { icon: "Users", label: "Users", href: "/admin/users" },
+    { icon: "Users", label: "Users", href: "/dashboard/admin/users" },
     {
       icon: "Building2",
       label: "Companies",
@@ -79,9 +79,8 @@ const DashboardSideBarServerLayout = async ({ children }) => {
 
   return (
     <div className="flex min-h-screen">
-      {/* 💡 রেডিমেড ফিল্টারড মেনু আইটেমস প্রপ্স আকারে ক্লায়েন্ট সাইডবারে পাঠানো হলো */}
       <DashboardSidebarLayout currentNavItems={currentNavItems} />
-      <div className="flex-1">{children}</div>
+      <div className="">{children}</div>
     </div>
   );
 };

@@ -6,12 +6,11 @@ import { format } from "date-fns";
 import { toast } from "react-toastify";
 
 const CompaniesTable = ({ data }) => {
-  // Event handlers
   const handleApprove = async (id) => {
     const result = await updateCompany(id, { status: "Approved" });
     console.log(result);
     if (result.acknowledged) {
-      toast.success("company status update sucessfully");
+      toast.success("company status update successfully");
     }
   };
 
@@ -24,15 +23,27 @@ const CompaniesTable = ({ data }) => {
 
   return (
     <>
+      {/* 📝 Heading and Subheading Section */}
+      <div className="px-4 my-4 ">
+        <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+          All Companies
+        </h1>
+        <p className="mt-1 text-sm text-default-400">
+          Review, approve, or reject registered companies and manage their
+          statuses.
+        </p>
+      </div>
+
       {/* Desktop Table View */}
       <div className="hidden mx-4 md:block">
-        <Table className="text-white">
+        <Table className="text-white text-justify">
           <Table.ScrollContainer>
             <Table.Content aria-label="Companies management table">
               <Table.Header>
                 <Table.Column isRowHeader>Company Name</Table.Column>
                 <Table.Column>Recruiter Email</Table.Column>
                 <Table.Column>Industry</Table.Column>
+                <Table.Column>Jobs</Table.Column>
                 <Table.Column>Status</Table.Column>
                 <Table.Column>Date Submitted</Table.Column>
                 <Table.Column>Actions</Table.Column>
@@ -51,16 +62,19 @@ const CompaniesTable = ({ data }) => {
                   return (
                     <Table.Row key={company._id}>
                       <Table.Cell className="flex items-center gap-3">
-                        <div className="flex h-8 w-8 items-center justify-center rounded bg-default-200 font-bold">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full  bg-default-200 font-bold">
                           {company.name.substring(0, 2).toUpperCase()}
                         </div>
                         {company.name}
                       </Table.Cell>
-                      <Table.Cell>{company.recruiterEmail}</Table.Cell>
+                      <Table.Cell>recruiter@gmail.com</Table.Cell>
                       <Table.Cell>
                         <Chip size="sm" variant="flat">
                           {company.industry}
                         </Chip>
+                      </Table.Cell>
+                      <Table.Cell className="w-8 h-8 rounded-full bg-default-200 text-center">
+                        {company.applications}
                       </Table.Cell>
                       <Table.Cell>
                         <Chip
@@ -108,7 +122,7 @@ const CompaniesTable = ({ data }) => {
       </div>
 
       {/* Mobile Card View */}
-      <div className="flex flex-col gap-4 md:hidden">
+      <div className="flex flex-col gap-4 md:hidden px-4">
         {data.map((company) => {
           const status = company.status.toLowerCase();
           return (
@@ -119,7 +133,7 @@ const CompaniesTable = ({ data }) => {
                     {company.name}
                   </Card.Title>
                   <Card.Description className="text-sm text-default-500">
-                    {company.recruiterEmail}
+                    recruiter@gmail.com
                   </Card.Description>
                 </div>
                 <Chip
@@ -137,6 +151,7 @@ const CompaniesTable = ({ data }) => {
                 </Chip>
               </Card.Header>
               <Card.Content className="py-2 text-sm">
+                {company.applications}
                 <p>Industry: {company.industry}</p>
                 <p>
                   Submitted:{" "}
